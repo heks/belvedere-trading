@@ -2,6 +2,9 @@
   "name": "generator-simple-redux",
   "version": "1.0.0",
   "description": "My simple redux application.",
+  "engines": {
+    "node": "4.2.1"
+  },
   "scripts": {
     "prestart": "npm install",
     "clean": "rimraf dist",
