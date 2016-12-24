@@ -1,0 +1,10 @@
+{
+ "name": "belvedere-rasinski",
+ "version": "1.0.0",
+ "description": "Belvedere Trading interview Q",
+ "author": "Daniel Rasinski",
+ "private": true,
+ "scripts": {
+   "postinstall": "npm install express"
+ }
+}
