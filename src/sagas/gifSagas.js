@@ -6,12 +6,18 @@ import { normalize, Schema, arrayOf } from 'normalizr';
 const gif = new Schema('gif');
 const pagination = new Schema('pagination');
 
-const API_URL = "http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=";
+const API_URL = "http://api.giphy.com/v1/gifs/search?limit=35&api_key=dc6zaTOxFJmzC";
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
-function fetchGifs(query) {
-  return fetch(`${API_URL}${query}`)
+const buildUrl = (payload) => {
+  const {query, offset} = payload;
+  return `${API_URL}&q=${query}&offset=${offset}`
+}
+
+
+function fetchGifs(payload) {
+  return fetch(buildUrl(payload))
     .then(function(response) {
         if (response.status >= 400) {
             throw new Error("Bad response from server");
@@ -22,7 +28,7 @@ function fetchGifs(query) {
       return normalize({
         gifs: data,
         pagination: {
-          id: query,
+          id: payload.query,
           ...response.pagination
         }
       }, {
@@ -33,12 +39,10 @@ function fetchGifs(query) {
 }
 
 export function* fetchData(action) {
-  const { query } = action.payload;
+  const { payload } = action;
    try {
-      // debounce input
-      yield call(delay, 500);
-      const data = yield call(fetchGifs, query);
-      yield put({type: "FETCH_GIFS_SUCCEEDED", payload: data})
+      const data = yield call(fetchGifs, payload);
+      yield put({type: "FETCH_GIFS_SUCCEEDED", payload: data })
    } catch (error) {
       yield put({type: "FETCH_GIFS_FAILED", error})
    }
@@ -58,5 +62,5 @@ function* watchInput() {
 
 export default function* rootSaga() {
   yield watchInput();
-  // yield takeLatest(FETCH_REQUESTED, fetchData);
+  yield takeLatest(FETCH_REQUESTED, fetchData);
 }

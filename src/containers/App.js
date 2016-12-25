@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Footer from '../components/Footer';
 import Search from '../components/Search';
 import Gifs from '../components/Gifs';
-
+import { FETCH_REQUESTED } from '../constants/ActionTypes';
 
 /**
  * It is common practice to have a 'Root' container/component require our main App (this one).
@@ -13,12 +13,12 @@ import Gifs from '../components/Gifs';
 class App extends Component {
 
   render() {
-    const { query, dispatch, gifs, loading } = this.props;
+    const { query, dispatch, gifs, loading, loadNextPage } = this.props;
     return (
       <div className="main-app-container">
         <div className="main-app-nav">Search Gifs</div>
         <Search query={query} dispatch={dispatch} />
-        <Gifs gifs={gifs} loading={loading} />
+        <Gifs {...this.props} />
         <Footer />
       </div>
     );
@@ -29,14 +29,23 @@ App.propTypes = {
   query: PropTypes.string.isRequired,
   gifs: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired,
+  hasMore: PropTypes.bool.isRequired,
+  loadNextPage: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
-  const { query, gifs, gif, loading } = state.gif;
+  const { query, gifs, gif, loading, pagination } = state.gif;
+  let hasMore = false;
+  if (pagination) {
+    const { total_count, count, offset } = pagination[query];
+    hasMore = ((offset + 1) * count < total_count);
+  }
   return {
     loading,
     query,
+    pagination: pagination ? pagination[query] : {},
+    hasMore,
     gifs: gifs.map(gifKey => {
       return gif[gifKey];
     })
@@ -45,7 +54,18 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch
+    dispatch,
+    loadNextPage: (query, offset) => {
+      dispatch({
+        type: FETCH_REQUESTED,
+        action: {
+          payload: {
+            query,
+            offset
+          }
+        }
+      });
+    }
   };
 }
 

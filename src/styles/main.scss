@@ -48,7 +48,7 @@ body {
     }
 
     input[type="text"] {
-      width: 400px;
+      width: 300px;
       padding: 20px;
       font-size: 20px;
       border: solid 2px #dcdcdc;
@@ -75,6 +75,14 @@ body {
   }
 }
 
+.spinner-container {
+  text-align: center;
+  .fa-spinner {
+    font-size: 50px;
+    margin-top: 80px;
+  }
+}
+
 
 .grid {
   display: flex;
@@ -83,16 +91,18 @@ body {
   padding-left: 40px;
   padding-right: 40px;
   align-items: center;
-  .fa-spinner {
-    font-size: 50px;
-    margin-top: 80px;
-  }
 }
 .col {
   flex: 1;
-  width: 32%;
   padding: 20px;
+  text-align: center;
+  width: 100%;
+}
 
+@media only screen and (min-width:960px){
+  .col {
+    width: 32%;
+  }
 }
 
 footer {

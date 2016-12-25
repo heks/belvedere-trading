@@ -1,24 +1,41 @@
 import React, { Component, PropTypes } from 'react';
 import Gif from './Gif';
+const InfiniteScroll = require('react-infinite-scroll')(React);
 
 export default class Gifs extends Component {
 
+  renderLoader = () => {
+    return (
+      <div className="spinner-container">
+        <span className="fa fa-spinner fa-spin"></span>
+      </div>
+    );
+  };
+
+  handleLoadMore = () => {
+    const {loadNextPage, pagination: {offset, id}} = this.props;
+    loadNextPage(id, offset+1);
+  };
+
   renderGifs = () => {
-    const {loading, gifs} = this.props;
+    const {loading, gifs, hasMore} = this.props;
     if(!loading) {
-      return (<span className="fa fa-spinner fa-spin"></span>);
+      return this.renderLoader();
     }
-    return gifs.map(gif => {
-      return (
-         <Gif gif={gif} key={gif.id} />
-      );
-    });
+    return (
+      <InfiniteScroll hasMore={hasMore} loader={this.renderLoader} loadMore={this.handleLoadMore}>
+        <div className="grid">
+          {gifs.map(gif => {return (<Gif gif={gif} key={gif.id} />)})}
+        </div>
+      </InfiniteScroll>
+    );
+
   };
 
 
   render() {
     return (
-      <div className="grid">
+      <div>
         {this.renderGifs()}
       </div>
     );
@@ -27,5 +44,8 @@ export default class Gifs extends Component {
 
 Gifs.propTypes = {
   gifs: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired
+  hasMore: PropTypes.bool.isRequired,
+  pagination: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired,
+  loadNextPage: PropTypes.func.isRequired
 };

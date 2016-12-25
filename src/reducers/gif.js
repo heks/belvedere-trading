@@ -3,9 +3,9 @@ import { FETCH_REQUESTED, FETCH_GIFS_SUCCEEDED, FETCH_GIFS_FAILED, INPUT_CHANGED
 const initState = {
   loading: false,
   gifs: [],
-  pagination:{},
+  pagination:undefined,
   query: '',
-  gif: {}
+  gif: undefined
 };
 
 export default function gif(state = initState, action) {
