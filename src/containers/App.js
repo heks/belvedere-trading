@@ -13,7 +13,7 @@ import { FETCH_REQUESTED } from '../constants/ActionTypes';
 class App extends Component {
 
   render() {
-    const { query, dispatch, gifs, loading, loadNextPage } = this.props;
+    const { query, dispatch } = this.props;
     return (
       <div className="main-app-container">
         <div className="main-app-nav">Search Gifs</div>
@@ -37,9 +37,9 @@ App.propTypes = {
 function mapStateToProps(state) {
   const { query, gifs, gif, loading, pagination } = state.gif;
   let hasMore = false;
-  if (pagination) {
+  if (pagination && !loading) {
     const { total_count, count, offset } = pagination[query];
-    hasMore = ((offset + 1) * count < total_count);
+    hasMore = ((offset + 1) * count < total_count) && !loading;
   }
   return {
     loading,
@@ -58,11 +58,9 @@ function mapDispatchToProps(dispatch) {
     loadNextPage: (query, offset) => {
       dispatch({
         type: FETCH_REQUESTED,
-        action: {
-          payload: {
-            query,
-            offset
-          }
+        payload: {
+          query,
+          offset
         }
       });
     }

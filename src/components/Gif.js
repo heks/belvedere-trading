@@ -5,7 +5,9 @@ export default class GifItem extends Component {
 
   preloader = () => {
   	return (
-  	  <div className='fa fa-spinner fa-spin' />
+      <div className="spinner-container">
+  	    <div className='fa fa-spinner fa-spin' />
+      </div>
   	);
   };
 

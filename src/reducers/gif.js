@@ -1,4 +1,4 @@
-import { FETCH_REQUESTED, FETCH_GIFS_SUCCEEDED, FETCH_GIFS_FAILED, INPUT_CHANGED } from '../constants/ActionTypes';
+import { FETCH_REQUESTED, FETCH_GIFS_SUCCEEDED, FETCH_GIFS_FAILED, INPUT_CHANGED, CLEAR_GIFS } from '../constants/ActionTypes';
 
 const initState = {
   loading: false,
@@ -22,19 +22,29 @@ export default function gif(state = initState, action) {
       const {query} = action.payload;
       return {
         ...state,
-        loading: true,
         query
       };
     }
     case FETCH_GIFS_SUCCEEDED: {
-      const {entities, result: {gifs, pagination}} = action.payload;
+      const {entities: {gif, pagination}, result: {gifs}} = action.payload;
       return {
         ...state,
-        ...entities,
+        gif: {
+          ...state.gif,
+          ...gif
+        },
+        pagination,
         loading: false,
-        gifs
+        gifs: state.gifs.concat(gifs)
       }
     }
+    case CLEAR_GIFS:
+      return {
+        ...state,
+        gifs: [],
+        gif: undefined,
+        pagination:undefined,
+      };
     case FETCH_GIFS_FAILED:
     default:
       return state;

@@ -4,9 +4,11 @@ import { INPUT_CHANGED } from '../constants/ActionTypes';
 export default class Search extends Component {
 
   handleChange = event => {
-    const {dispatch} = this.props;
+    const {dispatch, query} = this.props;
     const {target: {value}} = event;
-    dispatch({type:INPUT_CHANGED, payload: {query: value}});
+    if (query !== value) {
+      dispatch({type:INPUT_CHANGED, payload: {query: value}});
+    }
   };
 
   render() {

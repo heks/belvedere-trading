@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:100,400);
+@import url(https://fonts.googleapis.com/css?family=Raleway:100,400,700);
 @import url(http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css);
 
 $main-bg-color: #f1f2f0;
@@ -25,6 +25,13 @@ body {
   text-align: center;
 }
 
+h3 {
+  font-weight: normal;
+}
+
+.text-center {
+  text-align: center;
+}
 
 .search-container {
   display: flex;
@@ -93,7 +100,6 @@ body {
   align-items: center;
 }
 .col {
-  flex: 1;
   padding: 20px;
   text-align: center;
   width: 100%;
@@ -101,9 +107,18 @@ body {
 
 @media only screen and (min-width:960px){
   .col {
+    flex: 1;
     width: 32%;
   }
 }
+
+@media only screen and (max-width:1200px) and (min-width:960px) {
+  .col {
+    flex: 1;
+    width: 50%;
+  }
+}
+
 
 footer {
   font-size: 0.75em;

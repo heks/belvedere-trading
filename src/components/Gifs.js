@@ -14,29 +14,42 @@ export default class Gifs extends Component {
 
   handleLoadMore = () => {
     const {loadNextPage, pagination: {offset, id}} = this.props;
-    loadNextPage(id, offset+1);
+    console.log("loadMore");
+    // loadNextPage(id, offset+1);
   };
 
-  renderGifs = () => {
-    const {loading, gifs, hasMore} = this.props;
-    if(!loading) {
-      return this.renderLoader();
+  renderGifList = () => {
+    const {gifs, query} = this.props;
+    if(gifs.length === 0 && query.length) {
+      return (
+        <div>
+          <div className="grid">
+            <h3> No results found for: <strong> {query} </strong> </h3>
+          </div>
+          <div className="text-center">
+            <h4> <small> Try Again. </small> </h4>
+          </div>
+        </div>
+      );
     }
     return (
-      <InfiniteScroll hasMore={hasMore} loader={this.renderLoader} loadMore={this.handleLoadMore}>
-        <div className="grid">
-          {gifs.map(gif => {return (<Gif gif={gif} key={gif.id} />)})}
-        </div>
-      </InfiniteScroll>
+      <div className="grid">
+        {gifs.map(gif => {
+          return (
+            <Gif gif={gif} key={gif.id} />
+          )})
+        }
+      </div>
     );
-
   };
 
-
   render() {
+    const {hasMore, loading} = this.props;
     return (
       <div>
-        {this.renderGifs()}
+        <InfiniteScroll threshold={500} hasMore={hasMore} loader={this.renderLoader} loadMore={this.handleLoadMore}>
+          {loading ? this.renderLoader() : this.renderGifList()}
+        </InfiniteScroll>
       </div>
     );
   }
@@ -45,7 +58,7 @@ export default class Gifs extends Component {
 Gifs.propTypes = {
   gifs: PropTypes.array.isRequired,
   hasMore: PropTypes.bool.isRequired,
-  pagination: PropTypes.object.isRequired,
+  pagination: PropTypes.object,
   loading: PropTypes.bool.isRequired,
   loadNextPage: PropTypes.func.isRequired
 };
