@@ -1,4 +1,4 @@
-import { FETCH_REQUESTED, FETCH_GIFS_SUCCEEDED, FETCH_GIFS_FAILED } from '../constants/ActionTypes';
+import { FETCH_REQUESTED, FETCH_GIFS_SUCCEEDED, FETCH_GIFS_FAILED, INPUT_CHANGED } from '../constants/ActionTypes';
 
 const initState = {
   loading: false,
@@ -10,6 +10,14 @@ const initState = {
 
 export default function gif(state = initState, action) {
   switch (action.type) {
+    case INPUT_CHANGED: {
+      const {query} = action.payload;
+      return {
+        ...state,
+        loading: true,
+        query
+      }
+    }
     case FETCH_REQUESTED: {
       const {query} = action.payload;
       return {

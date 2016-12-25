@@ -4,15 +4,19 @@ import { INPUT_CHANGED } from '../constants/ActionTypes';
 export default class Search extends Component {
 
   handleChange = event => {
+    const {dispatch} = this.props;
     const {target: {value}} = event;
-    dispatch({type:INPUT_CHANGED, query: value});
+    dispatch({type:INPUT_CHANGED, payload: {query: value}});
   };
 
   render() {
     const { query } = this.props;
     return (
-      <div className="counter-container">
-        <input type="text" value={query} onChange={this.handleChange} />
+      <div className="search-container">
+        <div className="search">
+          <span className="fa fa-search"></span>
+          <input placeholder="Search Gifs..." type="text" value={query} onChange={this.handleChange} />
+        </div>
       </div>
     );
   }

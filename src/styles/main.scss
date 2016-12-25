@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Raleway:100,400);
+@import url(http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css);
 
 $main-bg-color: #f1f2f0;
 $accent-blue: #37bbe4;
@@ -24,27 +25,41 @@ body {
   text-align: center;
 }
 
-.counter-num-label {
-  color: $accent-orange;
-  padding-top: 1em;
-  font-size: 3em;
-  text-align: center;
-  width: 100%;
-}
 
-.counter-even-label {
-  padding-top: 1em;
-  font-size: 0.75em;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-}
-
-.counter-buttons {
+.search-container {
   display: flex;
   justify-content: center;
   align-items: center;
   padding-top: 3em;
+  padding-bottom: 3em;
+
+  .search {
+    vertical-align: middle;
+    white-space: nowrap;
+    position: relative;
+    .fa-search {
+      position: absolute;
+      top: 15%;
+      right: 5%;
+      margin-left: 17px;
+      margin-top: 17px;
+      z-index: 1;
+      color: #4f5b66;
+    }
+
+    input[type="text"] {
+      width: 400px;
+      padding: 20px;
+      font-size: 20px;
+      border: solid 2px #dcdcdc;
+      transition: box-shadow 0.3s, border 0.3s;
+    }
+    input[type="text"]:focus,
+    input[type="text"].focus {
+      border: solid 1px #707070;
+      box-shadow: 0 0 5px 1px #969696;
+    }
+  }
 
   button {
     background-color: #CCC;
@@ -58,6 +73,26 @@ body {
       background-color: $accent-gray;
     }
   }
+}
+
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding-left: 40px;
+  padding-right: 40px;
+  align-items: center;
+  .fa-spinner {
+    font-size: 50px;
+    margin-top: 80px;
+  }
+}
+.col {
+  flex: 1;
+  width: 32%;
+  padding: 20px;
+
 }
 
 footer {

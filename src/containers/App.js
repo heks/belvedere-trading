@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Footer from '../components/Footer';
 import Search from '../components/Search';
-import { FETCH_REQUESTED } from '../constants/ActionTypes';
+import Gifs from '../components/Gifs';
 
 
 /**
@@ -12,17 +12,13 @@ import { FETCH_REQUESTED } from '../constants/ActionTypes';
  */
 class App extends Component {
 
-  componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch({ type: FETCH_REQUESTED, payload: { query: 'kittens' } });
-  }
-
   render() {
-    const { query, dispatch } = this.props;
+    const { query, dispatch, gifs, loading } = this.props;
     return (
       <div className="main-app-container">
         <div className="main-app-nav">Search Gifs</div>
         <Search query={query} dispatch={dispatch} />
+        <Gifs gifs={gifs} loading={loading} />
         <Footer />
       </div>
     );
@@ -31,20 +27,19 @@ class App extends Component {
 
 App.propTypes = {
   query: PropTypes.string.isRequired,
-  state: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired
+  gifs: PropTypes.array.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
-/**
- * Keep in mind that 'state' isn't the state of local object, but your single
- * state in this Redux application. 'counter' is a property within our store/state
- * object. By mapping it to props, we can pass it to the child component Counter.
- */
 function mapStateToProps(state) {
-  const { query } = state.gif;
+  const { query, gifs, gif, loading } = state.gif;
   return {
+    loading,
     query,
-    state
+    gifs: gifs.map(gifKey => {
+      return gif[gifKey];
+    })
   };
 }
 

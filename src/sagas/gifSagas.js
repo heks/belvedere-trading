@@ -10,10 +10,6 @@ const API_URL = "http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=";
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
-function *helloSaga() {
-  console.log("hello saga")
-}
-
 function fetchGifs(query) {
   return fetch(`${API_URL}${query}`)
     .then(function(response) {
@@ -49,16 +45,18 @@ export function* fetchData(action) {
 }
 
 function* handleInput(action) {
-  console.log(action);
-  yield put(action);
   // debounce by 500ms
   yield call(delay, 500);
   yield call(fetchData, action);
 }
 
+function* watchInput() {
+  // will cancel current running handleInput task
+  yield takeLatest(INPUT_CHANGED, handleInput);
+}
+
 
 export default function* rootSaga() {
-  yield helloSaga();
-  yield takeLatest(INPUT_CHANGED, handleInput);
+  yield watchInput();
   // yield takeLatest(FETCH_REQUESTED, fetchData);
 }
