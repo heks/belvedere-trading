@@ -3,5 +3,7 @@
  * within your app. Combined with the DevTools/logger, you can see how state and subsequently
  * your UI is being affected.
  */
-export const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
-export const DECREMENT_COUNTER = 'DECREMENT_COUNTER';
+export const FETCH_GIFS_SUCCEEDED = 'FETCH_GIFS_SUCCEEDED';
+export const FETCH_GIFS_FAILED = 'FETCH_GIFS_FAILED';
+export const FETCH_REQUESTED = 'FETCH_REQUESTED';
+export const INPUT_CHANGED = 'INPUT_CHANGED';

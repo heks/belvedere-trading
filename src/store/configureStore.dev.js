@@ -3,6 +3,9 @@ import rootReducer from '../reducers';
 import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
 import DevTools from '../containers/DevTools';
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from '../sagas/gifSagas.js';
+
 
 /**
  * Entirely optional, this tiny library adds some functionality to
@@ -11,17 +14,18 @@ import DevTools from '../containers/DevTools';
  * flexibility!
  */
 const logger = createLogger();
+const sagaMiddleware = createSagaMiddleware();
 
 const finalCreateStore = compose(
   // Middleware you want to use in development:
-  applyMiddleware(logger, thunk),
+  applyMiddleware(logger, thunk, sagaMiddleware),
   // Required! Enable Redux DevTools with the monitors you chose
   DevTools.instrument()
 )(createStore);
 
 module.exports = function configureStore(initialState) {
   const store = finalCreateStore(rootReducer, initialState);
-
+  sagaMiddleware.run(rootSaga);
   // Hot reload reducers (requires Webpack or Browserify HMR to be enabled)
   if (module.hot) {
     module.hot.accept('../reducers', () =>

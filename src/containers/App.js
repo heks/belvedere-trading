@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as CounterActions from '../actions/CounterActions';
-import Counter from '../components/Counter';
 import Footer from '../components/Footer';
+import Search from '../components/Search';
+import { FETCH_REQUESTED } from '../constants/ActionTypes';
+
 
 /**
  * It is common practice to have a 'Root' container/component require our main App (this one).
@@ -11,14 +11,18 @@ import Footer from '../components/Footer';
  * component to make the Redux store available to the rest of the app.
  */
 class App extends Component {
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({ type: FETCH_REQUESTED, payload: { query: 'kittens' } });
+  }
+
   render() {
-    // we can use ES6's object destructuring to effectively 'unpack' our props
-    const { counter, actions } = this.props;
+    const { query, dispatch } = this.props;
     return (
       <div className="main-app-container">
-        <div className="main-app-nav">Simple Redux Boilerplate</div>
-        {/* notice that we then pass those unpacked props into the Counter component */}
-        <Counter counter={counter} actions={actions} />
+        <div className="main-app-nav">Search Gifs</div>
+        <Search query={query} dispatch={dispatch} />
         <Footer />
       </div>
     );
@@ -26,8 +30,9 @@ class App extends Component {
 }
 
 App.propTypes = {
-  counter: PropTypes.number.isRequired,
-  actions: PropTypes.object.isRequired
+  query: PropTypes.string.isRequired,
+  state: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired
 };
 
 /**
@@ -36,22 +41,16 @@ App.propTypes = {
  * object. By mapping it to props, we can pass it to the child component Counter.
  */
 function mapStateToProps(state) {
+  const { query } = state.gif;
   return {
-    counter: state.counter
+    query,
+    state
   };
 }
 
-/**
- * Turns an object whose values are 'action creators' into an object with the same
- * keys but with every action creator wrapped into a 'dispatch' call that we can invoke
- * directly later on. Here we imported the actions specified in 'CounterActions.js' and
- * used the bindActionCreators function Redux provides us.
- *
- * More info: http://redux.js.org/docs/api/bindActionCreators.html
- */
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(CounterActions, dispatch)
+    dispatch
   };
 }
 
