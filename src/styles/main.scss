@@ -130,6 +130,12 @@ h3 {
   flex: 1;
 }
 
+@media only screen and (max-width:540px) {
+  .col {
+    padding: 0px;
+  }
+}
+
 footer {
   font-size: 0.75em;
   text-align: center;
