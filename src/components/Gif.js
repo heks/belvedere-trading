@@ -12,7 +12,7 @@ export default class GifItem extends Component {
   };
 
   render() {
-    const { gif: {images: {downsized: {url, height, width} } } } = this.props;
+    const { gif: {images: {fixed_height: {url, height, width} } } } = this.props;
     return (
       <div className="col">
 		    <ImageLoader imgProps={{width, height}} src={url} preloader={this.preloader} />

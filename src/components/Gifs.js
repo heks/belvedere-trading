@@ -15,11 +15,11 @@ export default class Gifs extends Component {
   handleLoadMore = () => {
     const {loadNextPage, pagination: {offset, id}, hasMore} = this.props;
     console.log("loadMore");
-    // hasMore && loadNextPage(id, offset+1);
+    hasMore && loadNextPage(id, offset+1);
   };
 
   renderGifList = () => {
-    const {gifs, query} = this.props;
+    const {gifs, query, hasMore} = this.props;
     if(gifs.length === 0 && query.length) {
       return (
         <div>
@@ -33,12 +33,17 @@ export default class Gifs extends Component {
       );
     }
     return (
-      <div className="grid">
+      <div>
+        <div className="grid">
         {gifs.map(gif => {
           return (
             <Gif gif={gif} key={gif.id} />
           )})
         }
+        </div>
+        {hasMore && (<div className="load-more-container">
+          <a onClick={this.handleLoadMore}> Load More </a>
+        </div>)}
       </div>
     );
   };
@@ -47,9 +52,7 @@ export default class Gifs extends Component {
     const {hasMore, loading} = this.props;
     return (
       <div>
-        <InfiniteScroll threshold={500} hasMore={hasMore} loader={this.renderLoader} loadMore={this.handleLoadMore}>
-          {loading ? this.renderLoader() : this.renderGifList()}
-        </InfiniteScroll>
+        {loading ? this.renderLoader() : this.renderGifList()}
       </div>
     );
   }

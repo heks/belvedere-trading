@@ -106,6 +106,15 @@ h3 {
   }
 }
 
+.load-more-container {
+  text-align: center;
+  margin-top: 100px;
+  a {
+    cursor: pointer;
+    color: $accent-blue;
+    font-size: 30px;
+  }
+}
 
 .grid {
   display: flex;

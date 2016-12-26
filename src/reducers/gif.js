@@ -40,7 +40,7 @@ export default function gif(state = initState, action) {
         pagination,
         loading: false,
         isInfiniteLoading: false,
-        gifs: state.gifs.concat(gifs)
+        gifs: [...new Set([...state.gifs, ...gifs])]
       }
     }
     case CLEAR_GIFS:

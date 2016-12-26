@@ -6,7 +6,7 @@ import { normalize, Schema, arrayOf } from 'normalizr';
 const gif = new Schema('gif');
 const pagination = new Schema('pagination');
 
-const API_URL = "http://api.giphy.com/v1/gifs/search?limit=35&api_key=dc6zaTOxFJmzC";
+const API_URL = "http://api.giphy.com/v1/gifs/search?limit=100&api_key=dc6zaTOxFJmzC";
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -14,7 +14,7 @@ const buildUrl = (payload) => {
   const {query, offset, other} = payload;
   let apiString = API_URL;
   apiString = other ? API_URL.replace('search', other) : apiString;
-  return `${apiString}` + (query ? `&q=${query}` : '') + (offset ? `&offset=${offset}` : '');
+  return `${apiString}` + (query ? `&q=${encodeURI(query)}` : '') + (offset ? `&offset=${offset}` : '');
 }
 
 
