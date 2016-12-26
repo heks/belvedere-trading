@@ -1,28 +1,32 @@
-import { FETCH_REQUESTED, FETCH_GIFS_SUCCEEDED, FETCH_GIFS_FAILED, INPUT_CHANGED, CLEAR_GIFS } from '../constants/ActionTypes';
+import { FETCH_REQUESTED, FETCH_GIFS_SUCCEEDED, FETCH_GIFS_FAILED, INPUT_CHANGED, CLEAR_GIFS, BUTTON_CLICK } from '../constants/ActionTypes';
 
 const initState = {
   loading: false,
   gifs: [],
   pagination:undefined,
   query: '',
-  gif: undefined
+  gif: undefined,
+  isInfiniteLoading: false
 };
 
 export default function gif(state = initState, action) {
   switch (action.type) {
+    case BUTTON_CLICK:
     case INPUT_CHANGED: {
       const {query} = action.payload;
       return {
         ...state,
         loading: true,
-        query
+        query,
+        isInfiniteLoading: false
       }
     }
     case FETCH_REQUESTED: {
       const {query} = action.payload;
       return {
         ...state,
-        query
+        query,
+        isInfiniteLoading: true
       };
     }
     case FETCH_GIFS_SUCCEEDED: {
@@ -35,6 +39,7 @@ export default function gif(state = initState, action) {
         },
         pagination,
         loading: false,
+        isInfiniteLoading: false,
         gifs: state.gifs.concat(gifs)
       }
     }
@@ -43,6 +48,7 @@ export default function gif(state = initState, action) {
         ...state,
         gifs: [],
         gif: undefined,
+        isInfiniteLoading: false,
         pagination:undefined,
       };
     case FETCH_GIFS_FAILED:

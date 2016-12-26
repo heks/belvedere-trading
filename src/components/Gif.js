@@ -15,7 +15,7 @@ export default class GifItem extends Component {
     const { gif: {images: {downsized: {url, height, width} } } } = this.props;
     return (
       <div className="col">
-		<ImageLoader imgProps={{width, height}} src={url} preloader={this.preloader} />
+		    <ImageLoader imgProps={{width, height}} src={url} preloader={this.preloader} />
       </div>
     );
   }

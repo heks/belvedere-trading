@@ -13,9 +13,9 @@ export default class Gifs extends Component {
   };
 
   handleLoadMore = () => {
-    const {loadNextPage, pagination: {offset, id}} = this.props;
+    const {loadNextPage, pagination: {offset, id}, hasMore} = this.props;
     console.log("loadMore");
-    // loadNextPage(id, offset+1);
+    // hasMore && loadNextPage(id, offset+1);
   };
 
   renderGifList = () => {

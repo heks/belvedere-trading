@@ -1,4 +1,4 @@
-import { FETCH_GIFS_SUCCEEDED, FETCH_GIFS_FAILED, FETCH_REQUESTED, INPUT_CHANGED, CLEAR_GIFS } from '../constants/ActionTypes';
+import { FETCH_GIFS_SUCCEEDED, FETCH_GIFS_FAILED, FETCH_REQUESTED, INPUT_CHANGED, BUTTON_CLICK, CLEAR_GIFS } from '../constants/ActionTypes';
 import fetch from 'isomorphic-fetch';
 import { call, put } from 'redux-saga/effects'
 import { takeLatest, throttle } from 'redux-saga'
@@ -11,8 +11,10 @@ const API_URL = "http://api.giphy.com/v1/gifs/search?limit=35&api_key=dc6zaTOxFJ
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
 const buildUrl = (payload) => {
-  const {query, offset} = payload;
-  return `${API_URL}&q=${query}` + (offset ? `&offset=${offset}` : '');
+  const {query, offset, other} = payload;
+  let apiString = API_URL;
+  apiString = other ? API_URL.replace('search', other) : apiString;
+  return `${apiString}` + (query ? `&q=${query}` : '') + (offset ? `&offset=${offset}` : '');
 }
 
 
@@ -48,7 +50,7 @@ export function* fetchData(action) {
    }
 }
 
-function* handleInput(action) {
+function* handleDebounce(action) {
   // debounce by 500ms
   yield call(delay, 500);
   yield put({type: CLEAR_GIFS});
@@ -56,22 +58,27 @@ function* handleInput(action) {
 }
 
 function *handleInfiniteScroll(action) {
-  // yield throttle(500, FETCH_REQUESTED, handleInput)
+  console.log("test")
   yield call(fetchData, action);
 }
 
 function* watchInput() {
-  // will cancel current running handleInput task
-  yield takeLatest(INPUT_CHANGED, handleInput);
+  yield takeLatest(INPUT_CHANGED, handleDebounce);
+}
+
+function* watchButtons() {
+  yield takeLatest(BUTTON_CLICK, handleDebounce);
 }
 
 function* watchInfiniteScroll() {
-  // yield throttle(500, FETCH_REQUESTED, handleInfiniteScroll)
-  yield takeLatest(FETCH_REQUESTED, handleInfiniteScroll);
+  yield throttle(500, FETCH_REQUESTED, handleInfiniteScroll)
 }
 
 
 export default function* rootSaga() {
-  yield watchInput();
-  yield watchInfiniteScroll();
+  yield [
+    watchInput(),
+    watchButtons(),
+    watchInfiniteScroll()
+  ];
 }

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { INPUT_CHANGED } from '../constants/ActionTypes';
+import { INPUT_CHANGED, BUTTON_CLICK } from '../constants/ActionTypes';
 
 export default class Search extends Component {
 
@@ -11,6 +11,15 @@ export default class Search extends Component {
     }
   };
 
+  handleOnClickButton = input => {
+    return this.handleRequest.bind(this, input);
+  };
+
+  handleRequest = other => {
+    const {dispatch} = this.props;
+    dispatch({type:BUTTON_CLICK, payload: {query: '', other}});
+  };
+
   render() {
     const { query } = this.props;
     return (
@@ -18,6 +27,9 @@ export default class Search extends Component {
         <div className="search">
           <span className="fa fa-search"></span>
           <input placeholder="Search Gifs..." type="text" value={query} onChange={this.handleChange} />
+        </div>
+        <div className="search-buttons">
+          <button onClick={this.handleOnClickButton('trending')}>Get Trending</button>
         </div>
       </div>
     );

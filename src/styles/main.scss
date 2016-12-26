@@ -39,11 +39,26 @@ h3 {
   align-items: center;
   padding-top: 3em;
   padding-bottom: 3em;
+  flex-wrap: wrap;
+
+  button {
+    background-color: #CCC;
+    padding: 20px;
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 1em;
+    margin-right: 1em;
+    border: solid 2px #dcdcdc;
+    &:hover {
+      background-color: $accent-gray;
+    }
+  }
 
   .search {
     vertical-align: middle;
     white-space: nowrap;
     position: relative;
+    margin-right: 1em;
     .fa-search {
       position: absolute;
       top: 15%;
@@ -67,23 +82,17 @@ h3 {
       box-shadow: 0 0 5px 1px #969696;
     }
   }
+}
 
-  button {
-    background-color: #CCC;
-    border: none;
-    height: 30px;
-    width: 80px;
-    margin-left: 1em;
-    margin-right: 1em;
-
-    &:hover {
-      background-color: $accent-gray;
-    }
+@media only screen and (max-width:700px) {
+  .search-container .search {
+    margin-bottom: 1em;
   }
 }
 
 .spinner-container {
   text-align: center;
+  height: 200px;
   .fa-spinner {
     font-size: 50px;
     margin-top: 80px;

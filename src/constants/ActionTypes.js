@@ -8,3 +8,4 @@ export const FETCH_GIFS_FAILED = 'FETCH_GIFS_FAILED';
 export const FETCH_REQUESTED = 'FETCH_REQUESTED';
 export const CLEAR_GIFS = 'CLEAR_GIFS';
 export const INPUT_CHANGED = 'INPUT_CHANGED';
+export const BUTTON_CLICK = 'BUTTON_CLICK';
