@@ -100,6 +100,8 @@ h3 {
 .spinner-container {
   text-align: center;
   height: 200px;
+  // width: 100%;
+  // display:block;
   .fa-spinner {
     font-size: 50px;
     margin-top: 80px;
@@ -114,6 +116,12 @@ h3 {
     color: $accent-blue;
     font-size: 30px;
   }
+}
+
+.image-responsive {
+  max-width: 100%;
+  display:block;
+  height: auto;
 }
 
 .grid {
@@ -131,7 +139,7 @@ h3 {
 }
 
 @media only screen and (max-width:540px) {
-  .col {
+  .grid, .col {
     padding: 0px;
   }
 }

@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import Gif from './Gif';
+import Dimensions from 'react-dimensions';
 const InfiniteScroll = require('react-infinite-scroll')(React);
 
+@Dimensions()
 export default class Gifs extends Component {
 
   renderLoader = () => {
@@ -19,7 +21,7 @@ export default class Gifs extends Component {
   };
 
   renderGifList = () => {
-    const {gifs, query, hasMore} = this.props;
+    const {gifs, query, hasMore, containerWidth} = this.props;
     if(gifs.length === 0 && query.length) {
       return (
         <div>
@@ -37,7 +39,7 @@ export default class Gifs extends Component {
         <div className="grid">
         {gifs.map(gif => {
           return (
-            <Gif gif={gif} key={gif.id} />
+            <Gif gif={gif} containerWidth={containerWidth} key={gif.id} />
           )})
         }
         </div>

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ImageLoader from 'react-imageloader';
 
-export default class GifItem extends Component {
+export default class Gif extends Component {
 
   preloader = () => {
   	return (
@@ -12,15 +12,21 @@ export default class GifItem extends Component {
   };
 
   render() {
-    const { gif: {images: {fixed_height: {url, height, width} } } } = this.props;
+    const { gif: {images: {fixed_height: {url, height, width}, fixed_width } }, containerWidth } = this.props;
+    let loadUrl = url;
+    console.log(containerWidth);
+    if (width > containerWidth) {
+      loadUrl = fixed_width.url;
+    }
     return (
       <div className="col">
-		    <ImageLoader imgProps={{width, height}} src={url} preloader={this.preloader} />
+		    <ImageLoader src={loadUrl} preloader={this.preloader} />
       </div>
     );
   }
 }
 
-GifItem.propTypes = {
+Gif.propTypes = {
   gif: PropTypes.object.isRequired,
+  containerWidth: PropTypes.number.isRequired
 };
