@@ -5,12 +5,12 @@ import createSagaMiddleware from 'redux-saga';
 import rootSaga from '../sagas/gifSagas.js';
 
 const sagaMiddleware = createSagaMiddleware();
-const middleware = [thunk, sagaMiddleware];
 const finalCreateStore = compose(
-  applyMiddleware(...middleware)
+  applyMiddleware(thunk, sagaMiddleware)
 )(createStore);
 
 module.exports = function configureStore(initialState) {
+  const store = finalCreateStore(rootReducer, initialState);
   sagaMiddleware.run(rootSaga);
-  return finalCreateStore(rootReducer, initialState);
+  return store;
 };

@@ -35,7 +35,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'index.html',
       filename: 'index.html',
-      title: 'Simple Redux Boilerplate',
+      title: 'Belvedere Trading Interview',
       inject: 'body'
     }),
     /**

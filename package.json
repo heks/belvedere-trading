@@ -1,7 +1,7 @@
 {
-  "name": "generator-simple-redux",
+  "name": "belvedere-trading-itnerview",
   "version": "1.0.0",
-  "description": "My simple redux application.",
+  "description": "Interview app for Belvedere Trading",
   "engines": {
     "node": "4.2.1"
   },
