@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ImageLoader from 'react-imageloader';
+import LazyLoad from 'react-lazyload';
 
 export default class Gif extends Component {
 
@@ -20,11 +21,16 @@ export default class Gif extends Component {
     }
     return (
       <div className="col">
-		    <ImageLoader src={loadUrl} preloader={this.preloader} />
+        <LazyLoad placeholder={this.preloader()} once>
+          <img src={loadUrl} />
+        </LazyLoad>
       </div>
     );
   }
 }
+
+          // <ImageLoader src={loadUrl} preloader={this.preloader} />
+
 
 Gif.propTypes = {
   gif: PropTypes.object.isRequired,
