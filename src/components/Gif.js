@@ -21,10 +21,11 @@ export default class Gif extends Component {
   };
 
   render() {
-    const { gif: {images: {fixed_height: {url, height, width}, fixed_height_still, fixed_width } }, containerWidth, index } = this.props;
+    let { gif: {images: {fixed_height: {url, height, width}, fixed_height_still, fixed_width } }, containerWidth, index } = this.props;
     let loadUrl = url;
     if (width > containerWidth) {
       loadUrl = fixed_width.url;
+      width = fixed_width.width;
     }
     return (
         <LazyLoad placeholder={this.preloader()} once>
