@@ -1,15 +1,19 @@
 @import url(https://fonts.googleapis.com/css?family=Raleway:100,400,700);
 @import url(http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css);
 
-$main-bg-color: #f1f2f0;
 $accent-blue: #37bbe4;
 $accent-gray: #e1e0dd;
 $accent-black: #35342f;
-$accent-orange: #ec6b2d;
 $accent-red: #dd6464;
 
 body {
-  background-color: $main-bg-color;
+  // background: linear-gradient(
+  //     to right, 
+  //     #48A9A6 25%, #4281A4 25%,
+  //     #4281A4 50%, #56A9D5 50%,
+  //     #56A9D5 75%, #003DA5 75%
+  //   );
+  background-color: #FFFAFF;
   color: $accent-black;
   display: flex;
   justify-content: center;
@@ -126,16 +130,8 @@ h3 {
 
 .grid {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
-  justify-content: space-around;
-  padding-left: 40px;
-  padding-right: 40px;
-  align-items: center;
-}
-.col {
-  padding: 20px;
-  text-align: center;
-  flex: 1;
 }
 
 @media only screen and (max-width:540px) {

@@ -16,7 +16,6 @@ export default class Gifs extends Component {
 
   handleLoadMore = () => {
     const {loadNextPage, pagination: {offset, id}, hasMore} = this.props;
-    console.log("loadMore");
     hasMore && loadNextPage(id, offset+1);
   };
 
@@ -37,9 +36,9 @@ export default class Gifs extends Component {
     return (
       <div>
         <div className="grid">
-        {gifs.map(gif => {
+        {gifs.map((gif, index) => {
           return (
-            <Gif gif={gif} containerWidth={containerWidth} key={gif.id} />
+            <Gif gif={gif} containerWidth={containerWidth} key={gif.id} index={index}/>
           )})
         }
         </div>

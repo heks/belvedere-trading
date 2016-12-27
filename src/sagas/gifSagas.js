@@ -58,7 +58,6 @@ function* handleDebounce(action) {
 }
 
 function *handleInfiniteScroll(action) {
-  console.log("test")
   yield call(fetchData, action);
 }
 
