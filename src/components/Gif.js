@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import ImageLoader from 'react-imageloader';
 import LazyLoad from 'react-lazyload';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-// const colors = ['#ff0081', '#0a2463', '#ffff00', '#3e92cc'];
 const colors = ['#48A9A6', '#4281A4', '#56A9D5', '#003DA5'];
 
 export default class Gif extends Component {
@@ -29,9 +29,18 @@ export default class Gif extends Component {
     }
     return (
         <LazyLoad placeholder={this.preloader()} once>
-          <div style={{width, height, border: `1px solid ${colors[index%4]}`, backgroundColor: colors[index%4]}}>
-            <img src={loadUrl}/>
-          </div>
+          <ReactCSSTransitionGroup
+            transitionName="fade"
+            transitionAppear={true}
+            transitionAppearTimeout={1000}
+            transitionLeaveTimeout={1000}
+            transitionEnter={true}
+            transitionEnterTimeout={1000}
+            transitionLeave={true}>
+            <div style={{width, height, border: `1px solid ${colors[index%4]}`, backgroundColor: colors[index%4]}}>
+              <img src={loadUrl}/>
+            </div>
+          </ReactCSSTransitionGroup>
         </LazyLoad>
     );
   }
