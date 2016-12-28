@@ -1,4 +1,13 @@
-import { FETCH_REQUESTED, FETCH_GIFS_SUCCEEDED, FETCH_GIFS_FAILED, INPUT_CHANGED, CLEAR_GIFS, BUTTON_CLICK, CLEAR_QUERY } from '../constants/ActionTypes';
+import {
+  FETCH_REQUESTED,
+  FETCH_GIFS_SUCCEEDED,
+  FETCH_GIFS_FAILED,
+  INPUT_CHANGED,
+  CLEAR_GIFS,
+  BUTTON_CLICK,
+  CLEAR_QUERY,
+  CHANGE_LIGHTBOX
+} from '../constants/ActionTypes';
 
 const initState = {
   loading: false,
@@ -6,6 +15,10 @@ const initState = {
   pagination:undefined,
   query: '',
   gif: undefined,
+  lightbox: {
+    currentImage: 0,
+    isOpen: false
+  }
 };
 
 export default function gif(state = initState, action) {
@@ -34,9 +47,23 @@ export default function gif(state = initState, action) {
           ...state.gif,
           ...gif
         },
+        lightbox: {
+          currentImage: 0,
+          isOpen: false
+        },
         pagination,
         loading: false,
         gifs: [...new Set([...state.gifs, ...gifs])]
+      }
+    }
+    case CHANGE_LIGHTBOX: {
+      const {currentImage, isOpen} = action.payload;
+      return {
+        ...state,
+        lightbox: {
+          currentImage: (typeof currentImage === 'number') ? currentImage : state.lightbox.currentImage,
+          isOpen: (typeof isOpen === 'undefined') ? state.lightbox.isOpen : isOpen
+        },
       }
     }
     case CLEAR_QUERY:

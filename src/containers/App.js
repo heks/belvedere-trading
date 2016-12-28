@@ -25,12 +25,13 @@ App.propTypes = {
   gifs: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired,
   hasMore: PropTypes.bool.isRequired,
+  lightbox: PropTypes.object.isRequired,
   loadNextPage: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
-  const { query, gifs, gif, loading, pagination} = state.gif;
+  const { query, gifs, gif, loading, pagination, lightbox } = state.gif;
   let hasMore = false;
   if (pagination && !loading) {
     const { total_count, count, offset } = pagination[query];
@@ -41,6 +42,7 @@ function mapStateToProps(state) {
     query,
     pagination: pagination ? pagination[query] : {},
     hasMore,
+    lightbox,
     gifs: gifs.map(gifKey => {
       return gif[gifKey];
     })

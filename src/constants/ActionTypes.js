@@ -12,3 +12,4 @@ export const BUTTON_CLICK = 'BUTTON_CLICK';
 export const ENTER_PRESSED = 'ENTER_PRESSED';
 export const ESC_PRESSED = 'ESC_PRESSED';
 export const CLEAR_QUERY = 'CLEAR_QUERY';
+export const CHANGE_LIGHTBOX = 'CHANGE_LIGHTBOX';

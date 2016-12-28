@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import LazyLoad from 'react-lazyload';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { CHANGE_LIGHTBOX } from '../constants/ActionTypes';
 
 const colors = ['#48A9A6', '#4281A4', '#56A9D5', '#003DA5'];
 
@@ -17,6 +18,11 @@ export default class Gif extends Component {
         <div className='fa fa-spinner fa-spin' />
       </div>
     );
+  };
+
+  handleOnClick = () => {
+    const { index, dispatch } = this.props;
+    dispatch({type: CHANGE_LIGHTBOX, payload:{ currentImage: index, isOpen: true }});
   };
 
   render() {
@@ -36,7 +42,7 @@ export default class Gif extends Component {
             transitionEnter={true}
             transitionEnterTimeout={1000}
             transitionLeave={true}>
-            <div style={{width, height, border: `1px solid ${colors[index%4]}`, backgroundColor: colors[index%4]}}>
+            <div onClick={this.handleOnClick} style={{width, height, border: `1px solid ${colors[index%4]}`, backgroundColor: colors[index%4]}}>
               <img src={loadUrl}/>
             </div>
           </ReactCSSTransitionGroup>
@@ -50,5 +56,7 @@ export default class Gif extends Component {
 
 Gif.propTypes = {
   gif: PropTypes.object.isRequired,
-  containerWidth: PropTypes.number.isRequired
+  containerWidth: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
+  dispatch: PropTypes.func.isRequired
 };
