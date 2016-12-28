@@ -30,14 +30,13 @@ App.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { query, gifs, gif, loading, pagination, isInfiniteLoading} = state.gif;
+  const { query, gifs, gif, loading, pagination} = state.gif;
   let hasMore = false;
   if (pagination && !loading) {
     const { total_count, count, offset } = pagination[query];
     hasMore = ((offset + 1) * count < total_count) && !loading;
   }
   return {
-    isInfiniteLoading,
     loading,
     query,
     pagination: pagination ? pagination[query] : {},

@@ -1,7 +1,7 @@
-import { FETCH_GIFS_SUCCEEDED, FETCH_GIFS_FAILED, FETCH_REQUESTED, INPUT_CHANGED, BUTTON_CLICK, CLEAR_GIFS } from '../constants/ActionTypes';
+import { FETCH_GIFS_SUCCEEDED, FETCH_GIFS_FAILED, FETCH_REQUESTED, CLEAR_QUERY, INPUT_CHANGED, ENTER_PRESSED, BUTTON_CLICK, CLEAR_GIFS, ESC_PRESSED } from '../constants/ActionTypes';
 import fetch from 'isomorphic-fetch';
-import { call, put } from 'redux-saga/effects'
-import { takeLatest, throttle } from 'redux-saga'
+import { call, put, race, take, cancel, cancelled } from 'redux-saga/effects'
+import { takeLatest, takeEvery, throttle } from 'redux-saga'
 import { normalize, Schema, arrayOf } from 'normalizr';
 const gif = new Schema('gif');
 const pagination = new Schema('pagination');
@@ -52,25 +52,57 @@ export function* fetchData(action) {
 
 function* handleDebounce(action) {
   // debounce by 500ms
-  yield call(delay, 500);
+  try {
+    yield call(delay, 800);
+    yield put({type: CLEAR_GIFS});
+    yield call(fetchData, action);
+  } finally {
+    if (yield cancelled()) {
+      console.log("Cancled debounce");
+    }
+  }
+}
+
+function* handleEsc(action) {
   yield put({type: CLEAR_GIFS});
+  yield put({type: CLEAR_QUERY})
+}
+
+function* handleEnter(action) {
+  yield put({type: CLEAR_GIFS});
+  const {query} = action.payload;
+  if(query.length) {
+    yield call(fetchData, action);
+  }
+}
+
+function *handleNextPage(action) {
   yield call(fetchData, action);
 }
 
-function *handleInfiniteScroll(action) {
-  yield call(fetchData, action);
+function *watchEnter() {
+  yield takeEvery(ENTER_PRESSED, handleEnter);
 }
 
 function* watchInput() {
-  yield takeLatest(INPUT_CHANGED, handleDebounce);
+  while(true) {
+    const inputTask = yield takeLatest(INPUT_CHANGED, handleDebounce);
+    yield take([ESC_PRESSED, ENTER_PRESSED]);
+    yield cancel(inputTask)
+  }
+  // yield takeLatest(INPUT_CHANGED, handleDebounce);
+}
+
+function* watchEsc() {
+  yield takeEvery(ESC_PRESSED, handleEsc);
 }
 
 function* watchButtons() {
   yield takeLatest(BUTTON_CLICK, handleDebounce);
 }
 
-function* watchInfiniteScroll() {
-  yield throttle(500, FETCH_REQUESTED, handleInfiniteScroll)
+function* watchNextPage() {
+  yield throttle(500, FETCH_REQUESTED, handleNextPage)
 }
 
 
@@ -78,6 +110,8 @@ export default function* rootSaga() {
   yield [
     watchInput(),
     watchButtons(),
-    watchInfiniteScroll()
+    watchEnter(),
+    watchEsc(),
+    watchNextPage()
   ];
 }

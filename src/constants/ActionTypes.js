@@ -9,3 +9,6 @@ export const FETCH_REQUESTED = 'FETCH_REQUESTED';
 export const CLEAR_GIFS = 'CLEAR_GIFS';
 export const INPUT_CHANGED = 'INPUT_CHANGED';
 export const BUTTON_CLICK = 'BUTTON_CLICK';
+export const ENTER_PRESSED = 'ENTER_PRESSED';
+export const ESC_PRESSED = 'ESC_PRESSED';
+export const CLEAR_QUERY = 'CLEAR_QUERY';

@@ -8,13 +8,13 @@ const colors = ['#48A9A6', '#4281A4', '#56A9D5', '#003DA5'];
 export default class Gif extends Component {
 
   preloader = () => {
-    let { gif: {images: {fixed_height: {height, width}, fixed_width } }, containerWidth } = this.props;
+    let { gif: {images: {fixed_height: {height, width}, fixed_width } }, containerWidth, index } = this.props;
     if (width > containerWidth) {
       height = fixed_width.height;
       width = fixed_width.width;
     }
     return (
-      <div style={{width, height}} className="spinner-container">
+      <div style={{width, height, backgroundColor: colors[index%4], color: 'white', opacity: 0.2}} className="spinner-container">
         <div className='fa fa-spinner fa-spin' />
       </div>
     );

@@ -1,4 +1,4 @@
-import { FETCH_REQUESTED, FETCH_GIFS_SUCCEEDED, FETCH_GIFS_FAILED, INPUT_CHANGED, CLEAR_GIFS, BUTTON_CLICK } from '../constants/ActionTypes';
+import { FETCH_REQUESTED, FETCH_GIFS_SUCCEEDED, FETCH_GIFS_FAILED, INPUT_CHANGED, CLEAR_GIFS, BUTTON_CLICK, CLEAR_QUERY } from '../constants/ActionTypes';
 
 const initState = {
   loading: false,
@@ -6,7 +6,6 @@ const initState = {
   pagination:undefined,
   query: '',
   gif: undefined,
-  isInfiniteLoading: false
 };
 
 export default function gif(state = initState, action) {
@@ -18,7 +17,6 @@ export default function gif(state = initState, action) {
         ...state,
         loading: true,
         query,
-        isInfiniteLoading: false
       }
     }
     case FETCH_REQUESTED: {
@@ -26,7 +24,6 @@ export default function gif(state = initState, action) {
       return {
         ...state,
         query,
-        isInfiniteLoading: true
       };
     }
     case FETCH_GIFS_SUCCEEDED: {
@@ -39,16 +36,20 @@ export default function gif(state = initState, action) {
         },
         pagination,
         loading: false,
-        isInfiniteLoading: false,
         gifs: [...new Set([...state.gifs, ...gifs])]
       }
     }
+    case CLEAR_QUERY:
+      return {
+        ...state,
+        loading: false,
+        query:''
+      }
     case CLEAR_GIFS:
       return {
         ...state,
         gifs: [],
         gif: undefined,
-        isInfiniteLoading: false,
         pagination:undefined,
       };
     case FETCH_GIFS_FAILED:

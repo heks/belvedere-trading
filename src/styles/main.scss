@@ -63,7 +63,7 @@ h3 {
     white-space: nowrap;
     position: relative;
     margin-right: 1em;
-    .fa-search {
+    .fa {
       position: absolute;
       top: 15%;
       right: 5%;
@@ -71,6 +71,9 @@ h3 {
       margin-top: 17px;
       z-index: 1;
       color: #4f5b66;
+      &.fa-times {
+        cursor: pointer;
+      }
     }
 
     input[type="text"] {
@@ -160,7 +163,7 @@ footer {
 }
 
 .fade-enter {
-  opacity: 0.01;
+  opacity: 0.2;
 }
 
 .fade-enter.fade-enter-active {
@@ -178,8 +181,7 @@ footer {
 }
 
 .fade-appear {
-  opacity: 0.01;
-  height: 0;
+  opacity: 0.2;
 }
 
 .fade-appear.fade-appear-active {
