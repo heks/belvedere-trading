@@ -9,7 +9,8 @@
     "prestart": "npm install",
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js --progress --profile --colors",
     "build": "npm run build:webpack --progress --profile --colors",
-    "deploy":"rm -r dist/main-* && npm run build:webpack && git add dist/* && git commit -a -m 'new dist build' && npm run deploy && git push origin master",
+    "deploy": "git subtree push --prefix dist heroku master",
+    "deploy-push": "rm -r dist/main-* && npm run build:webpack && git add dist/* && git commit -a -m 'new dist build' && npm run deploy && git push origin master",
     "dev": "NODE_ENV=development npm start",
     "start": "node devServer.js",
     "lint": "eslint src"

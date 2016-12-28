@@ -31,8 +31,7 @@ export default class Viewer extends Component {
           images={gifs.map(gif => {
             return {
             	src: gif.images.original.url,
-            	thumbnail: gif.images.preview.url,
-            	srcset: [gif.images.downsized.url, gif.images.downsized_small.url, gif.images.downsized_medium.url, gif.images.downsized_large.url]
+            	thumbnail: gif.images.preview.url
             }
           })}
           currentImage={currentImage}
