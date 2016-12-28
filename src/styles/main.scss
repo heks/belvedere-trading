@@ -7,12 +7,6 @@ $accent-black: #35342f;
 $accent-red: #dd6464;
 
 body {
-  // background: linear-gradient(
-  //     to right, 
-  //     #48A9A6 25%, #4281A4 25%,
-  //     #4281A4 50%, #56A9D5 50%,
-  //     #56A9D5 75%, #003DA5 75%
-  //   );
   background-color: #FFFAFF;
   color: $accent-black;
   display: flex;
@@ -109,6 +103,10 @@ h3 {
   height: 200px;
   // width: 100%;
   // display:block;
+  &.gif-preloader {
+    color: #FFFAFF;
+    opacity: 0.2;
+  }
   .fa-spinner {
     font-size: 50px;
     margin-top: 80px;

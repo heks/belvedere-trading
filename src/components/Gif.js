@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import ImageLoader from 'react-imageloader';
 import LazyLoad from 'react-lazyload';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
@@ -14,7 +13,7 @@ export default class Gif extends Component {
       width = fixed_width.width;
     }
     return (
-      <div style={{width, height, backgroundColor: colors[index%4], color: 'white', opacity: 0.2}} className="spinner-container">
+      <div style={{width, height, backgroundColor: colors[index%4]}} className="spinner-container gif-preloader">
         <div className='fa fa-spinner fa-spin' />
       </div>
     );

@@ -53,7 +53,7 @@ export function* fetchData(action) {
 function* handleDebounce(action) {
   // debounce by 500ms
   try {
-    yield call(delay, 800);
+    yield call(delay, 650);
     yield put({type: CLEAR_GIFS});
     yield call(fetchData, action);
   } finally {
@@ -90,7 +90,6 @@ function* watchInput() {
     yield take([ESC_PRESSED, ENTER_PRESSED]);
     yield cancel(inputTask)
   }
-  // yield takeLatest(INPUT_CHANGED, handleDebounce);
 }
 
 function* watchEsc() {
