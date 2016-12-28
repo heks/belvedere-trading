@@ -55,7 +55,12 @@ function* handleDebounce(action) {
   try {
     yield call(delay, 650);
     yield put({type: CLEAR_GIFS});
-    yield call(fetchData, action);
+    const {query} = action.payload;
+    if(query.length) {
+      yield call(fetchData, action);
+    } else {
+      yield put({type: CLEAR_QUERY});
+    }
   } finally {
     if (yield cancelled()) {
       console.log("Cancled debounce");
@@ -65,11 +70,11 @@ function* handleDebounce(action) {
 
 function* handleEsc(action) {
   yield put({type: CLEAR_GIFS});
-  yield put({type: CLEAR_QUERY})
+  yield put({type: CLEAR_QUERY});
 }
 
 function* handleEnter(action) {
-  yield put({type: CLEAR_GIFS});
+  // yield put({type: CLEAR_GIFS});
   const {query} = action.payload;
   if(query.length) {
     yield call(fetchData, action);

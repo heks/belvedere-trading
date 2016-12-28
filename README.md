@@ -9,3 +9,4 @@ npm run build:webpack && git subtree push --prefix dist heroku master
 link is:
 
 https://belvedere-rasinski.herokuapp.com/
+https://github.com/heks/belvedere-trading
