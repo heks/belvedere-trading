@@ -55,8 +55,8 @@ function* handleDebounce(action) {
   try {
     yield call(delay, 650);
     yield put({type: CLEAR_GIFS});
-    const {query} = action.payload;
-    if(query.length) {
+    const {query, other} = action.payload;
+    if(query.length || other) {
       yield call(fetchData, action);
     } else {
       yield put({type: CLEAR_QUERY});
