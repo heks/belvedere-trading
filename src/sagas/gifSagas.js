@@ -85,7 +85,7 @@ function* handleEsc(action) {
 }
 
 function* handleEnter(action) {
-  // yield put({type: CLEAR_GIFS});
+  yield put({type: CLEAR_GIFS});
   const {query} = action.payload;
   if(query.length) {
     yield call(fetchData, action);

@@ -47,10 +47,6 @@ export default function gif(state = initState, action) {
           ...state.gif,
           ...gif
         },
-        lightbox: {
-          currentImage: 0,
-          isOpen: false
-        },
         pagination,
         loading: false,
         gifs: [...new Set([...state.gifs, ...gifs])]
