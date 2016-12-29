@@ -11,8 +11,7 @@ import {
  CHANGE_LIGHTBOX
 } from '../constants/ActionTypes';
 import fetch from 'isomorphic-fetch';
-import { call, put, race, take, cancel, cancelled } from 'redux-saga/effects'
-import { takeLatest, takeEvery, throttle } from 'redux-saga'
+import { call, put, race, take, cancel, cancelled, takeLatest, takeEvery, throttle } from 'redux-saga/effects'
 import { normalize, Schema, arrayOf } from 'normalizr';
 const gif = new Schema('gif');
 const pagination = new Schema('pagination');
@@ -66,8 +65,8 @@ function* handleDebounce(action) {
   try {
     yield call(delay, 650);
     yield put({type: CLEAR_GIFS});
-    const {query, other} = action.payload;
-    if(query.length || other) {
+    const {query} = action.payload;
+    if(query.length) {
       yield call(fetchData, action);
     } else {
       yield put({type: CLEAR_QUERY});
@@ -77,6 +76,11 @@ function* handleDebounce(action) {
       console.log("Cancled debounce");
     }
   }
+}
+
+function *handleButton(action) {
+  yield put({type: CLEAR_GIFS});
+  yield call(fetchData, action);
 }
 
 function* handleEsc(action) {
@@ -107,7 +111,7 @@ function *watchEnter() {
 function* watchInput() {
   while(true) {
     const inputTask = yield takeLatest(INPUT_CHANGED, handleDebounce);
-    yield take([ESC_PRESSED, ENTER_PRESSED]);
+    yield take([ESC_PRESSED, ENTER_PRESSED, BUTTON_CLICK]);
     yield cancel(inputTask)
   }
 }
@@ -117,7 +121,7 @@ function* watchEsc() {
 }
 
 function* watchButtons() {
-  yield takeLatest(BUTTON_CLICK, handleDebounce);
+  yield takeEvery(BUTTON_CLICK, handleButton);
 }
 
 function* watchNextPage() {
