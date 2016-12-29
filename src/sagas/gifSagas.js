@@ -100,10 +100,6 @@ function *handleNextPage(action) {
   yield call(fetchData, action);
 }
 
-function *handleChangeLightbox() {
-  yield put({type: CHANGE_LIGHTBOX});
-}
-
 function *watchEnter() {
   yield takeEvery(ENTER_PRESSED, handleEnter);
 }
@@ -127,11 +123,6 @@ function* watchButtons() {
 function* watchNextPage() {
   yield throttle(500, FETCH_REQUESTED, handleNextPage)
 }
-
-function* watchLightbox() {
-  yield takeEvery(CHANGE_LIGHTBOX, handleChangeLightbox)
-}
-
 
 export default function* rootSaga() {
   yield [
